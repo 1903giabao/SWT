@@ -5,6 +5,7 @@ import driver.driverFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.testng.annotations.Test;
 
 /*
 Test Steps:
@@ -16,8 +17,9 @@ Test Steps:
 6. Compare Product value in list and details page should be equal ($100).
 */
 
+@Test
 public class TestCase02 {
-        public static void main(String[] args) {
+        public static void testCase02() {
 
             // Create an instance of the ChromeDrive
             WebDriver driver = driverFactory.getChromeDriver();

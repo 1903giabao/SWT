@@ -5,6 +5,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.AssertJUnit;
+import org.testng.annotations.Test;
 
 import java.io.File;
 import java.util.Locale;
@@ -20,8 +21,9 @@ Step 5. Verify all products are sorted by name
 
 */
 
+@Test
 public class TestCase01 {
-        public static void main(String[] args) {
+        public static void testCase01() {
             // Create an instance of the ChromeDrive
 
             WebDriver driver = new ChromeDriver();
