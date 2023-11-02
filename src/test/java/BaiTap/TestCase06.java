@@ -1,4 +1,4 @@
-package baitap;
+package BaiTap;
 
 import pom.CartPage;
 import pom.CheckoutPage;
@@ -16,8 +16,8 @@ import org.testng.asserts.Assertion;
 public class TestCase06 {
     public static void testCase06() {
         WebDriver driver = driverFactory.getChromeDriver();
-        String email = "giabao@gmail.com";
-        String password = "123456";
+        String email = "giabao1903@gmail.com";
+        String password = "19032003";
         String country = "United States";
         String state = "Florida";
         String zip = "2000";
