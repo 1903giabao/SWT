@@ -127,4 +127,11 @@ public class CheckoutPage {
         String expectedOrder = "YOUR ORDER HAS BEEN RECEIVED.";
         Assert.assertEquals(expectedOrder, heading.getText());
     }
+
+    public void getOrderId(){
+        WebElement orderIdText = driver.findElement(By.xpath("//div[@class='main-container col1-layout']//p[1]"));
+        String text = orderIdText.getText();
+        String id = text.substring(17, text.length() - 1);
+        System.out.println("Order Id is: " + id);
+    }
 }

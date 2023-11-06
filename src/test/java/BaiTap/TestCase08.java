@@ -4,17 +4,18 @@ import pom.CartPage;
 import pom.CheckoutPage;
 import pom.LoginPage;
 import driver.driverFactory;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import POM.RegisterPage;
-import org.testng.asserts.Assertion;
+
+import java.io.File;
+import java.sql.SQLOutput;
 
 @Test
-public class TestCase06 {
-    public static void testCase06() {
+public class TestCase08 {
+    public static void testTC8() {
         WebDriver driver = driverFactory.getChromeDriver();
         String email = "giabao1903@gmail.com";
         String password = "19032003";
@@ -27,43 +28,31 @@ public class TestCase06 {
         String city = "HCM";
         String telephone = "0123456789";
 
-        try{
+        try {
             LoginPage login = new LoginPage(driver);
             login.goToMyAccount();
             login.Login(email, password);
             login.clickLogin();
             Thread.sleep(2000);
 
-            WebElement wishlist = driver.findElement(By.linkText("MY WISHLIST"));
+            WebElement reorder = driver.findElement(By.xpath("//tr[@class='first odd']//a[@class='link-reorder'][normalize-space()='Reorder']"));
+            reorder.click();
+
+            WebElement qtyInput = driver.findElement(By.xpath("//input[@title='Qty']"));
+            qtyInput.clear();
+            qtyInput.sendKeys("10");
+            Thread.sleep(2000);
+            WebElement update = driver.findElement(By.xpath("//button[@title='Update']//span//span[contains(text(),'Update')]"));
+            WebElement expectedTotal = driver.findElement(By.xpath("//strong//span[@class='price'][normalize-space()='$130.00']"));
+            update.click();
             Thread.sleep(2000);
 
-            wishlist.click();
-            Thread.sleep(2000);
-
-            WebElement addToCart = driver.findElement(By.xpath("//button[@type='button']//span//span[contains(text(),'Add to Cart')]"));
-            Thread.sleep(2000);
-
-            addToCart.click();
-            Thread.sleep(2000);
+            WebElement grandTotal = driver.findElement(By.xpath("//strong//span[@class='price'][normalize-space()='$1,300.00']"));
+            Assert.assertNotEquals(expectedTotal, grandTotal.getText());
+            System.out.println("Grand Total is Changed");
 
             CartPage cart = new CartPage(driver);
-            cart.enterCountry(country);
-            cart.enterStateProvince(state);
-            cart.enterZip(zip);
-            cart.clickEstimate();
-            Thread.sleep(2000);
-
-            cart.verifyShippingCost();
-            Thread.sleep(2000);
-
-            cart.clickUpdateTotal();
-            Thread.sleep(2000);
-
-            cart.verifyTotal();
-            Thread.sleep(2000);
-
             cart.clickCheckout();
-            Thread.sleep(2000);
 
             CheckoutPage checkout = new CheckoutPage(driver);
             checkout.newBillingAddress();
@@ -94,11 +83,16 @@ public class TestCase06 {
 
             checkout.getOrderId();
 
-        } catch (Exception e){
+            TakesScreenshot screenshot =((TakesScreenshot)driver);
+            File srcFile = screenshot.getScreenshotAs(OutputType.FILE);
+            String png = ("D:\\FPT\\Term 5\\SWT301\\selenium-webdriver-java\\testcase8.png");
+            FileUtils.copyFile(srcFile, new File(png));
+
+        }
+        catch (Exception e){
             e.printStackTrace();
         }
 
         driver.quit();
-
     }
 }
