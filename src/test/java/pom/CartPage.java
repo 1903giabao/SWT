@@ -63,4 +63,30 @@ public class CartPage {
         WebElement checkout = driver.findElement(By.xpath("//li[@class='method-checkout-cart-methods-onepage-bottom']//button[@title='Proceed to Checkout']"));
         checkout.click();
     }
+
+    public void enterCoupon(String coupon){
+        WebElement c = driver.findElement(By.id("coupon_code"));
+        c.clear();
+        c.sendKeys(coupon);
+    }
+
+    public void applyCoupon(){
+        WebElement apply = driver.findElement(By.xpath("//span[contains(text(),'Apply')]"));
+        apply.click();
+    }
+
+    public void verifyDiscount(String expected){
+        WebElement discount = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[3]/div[1]/table[1]/tbody[1]/tr[2]/td[2]"));
+        Assert.assertEquals(discount.getText(), expected);
+    }
+
+    public void verifyTotalAfterDiscount(double expected){
+        WebElement grandTotal = driver.findElement(By.cssSelector("td[class='product-cart-price'] span[class='price']"));
+        String total = grandTotal.getText().substring(1, grandTotal.getText().length());
+        double a = Double.parseDouble(total);
+        double b = a*(1 - expected);
+        String c = "$" + b + "0";
+        WebElement actual = driver.findElement(By.cssSelector("strong span[class='price']"));
+        Assert.assertEquals(actual.getText(), c);
+    }
 }
